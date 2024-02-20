@@ -9,10 +9,7 @@ public class SParser {
 	public void parse(SLex lex) throws IOException {
 		program = new SProgram();
 		program.parse(lex);
-		
-		/*
-		 * Ãâ·Â :file, console
-		 */
+
 		FileWriter symbolTableWriter = new FileWriter("reference/symbolTable", true);
 		System.out.println("<------Symbol Table------>");
 		for(SSymbolEntity entity : getProgram().getCodeSegment().getSymbolTable()) {

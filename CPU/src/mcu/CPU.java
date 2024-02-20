@@ -84,7 +84,6 @@ public class CPU {
 	
 	private void decode() {
 		// read Operator
-		// 코드 구조상 IR에서 처리
 	}
 	
 	private void checkInterrupt() {
@@ -153,7 +152,7 @@ public class CPU {
 	
 	public void loada() {
 		String[] divideResult = divideOperand(ir.getOperand());
-		mar.setValue(Integer.parseInt(divideResult[1])); // 애초에 잘라서 들어가야 함
+		mar.setValue(Integer.parseInt(divideResult[1]));
 		
 		Register sr = null;
 		if(divideResult[0] == "11") {
@@ -168,7 +167,7 @@ public class CPU {
 		else if(divideResult[0] == "44") {
 			sr = null;
 		}
-		memory.load(sr); // 레지스터
+		memory.load(sr);
 		ac.setValue(mbr.getValue());
 	}
 	
@@ -186,7 +185,7 @@ public class CPU {
 	
 	public void storea() {
 		String[] divideResult = divideOperand(ir.getOperand());
-		mar.setValue(Integer.parseInt(divideResult[1])); // 애초에 잘라서 들어가야 함
+		mar.setValue(Integer.parseInt(divideResult[1]));
 		
 		mbr.setValue(ac.getValue());
 		
@@ -208,7 +207,7 @@ public class CPU {
 	
 	public void adda() {
 		String[] divideResult = divideOperand(ir.getOperand());
-		mar.setValue(Integer.parseInt(divideResult[1])); // 애초에 잘라서 들어가야 함
+		mar.setValue(Integer.parseInt(divideResult[1]));
 	
 		Register sr = null;
 		if(divideResult[0] == "11") {
@@ -231,7 +230,7 @@ public class CPU {
 	
 	public void suba() {
 		String[] divideResult = divideOperand(ir.getOperand());
-		mar.setValue(Integer.parseInt(divideResult[1])); // 애초에 잘라서 들어가야 함
+		mar.setValue(Integer.parseInt(divideResult[1]));
 		
 		Register sr = null;
 		if(divideResult[0] == "11") {
@@ -288,7 +287,7 @@ public class CPU {
 	
 	private void dividea() {
 		String[] divideResult = divideOperand(ir.getOperand());
-		mar.setValue(Integer.parseInt(divideResult[1])); // 애초에 잘라서 들어가야 함
+		mar.setValue(Integer.parseInt(divideResult[1]));
 		
 		Register sr = null;
 		if(divideResult[0] == "11") {

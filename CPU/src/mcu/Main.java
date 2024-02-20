@@ -8,8 +8,7 @@ public class Main {
 		Memory memory = new Memory();
 		KeyboardBuffer keyboardBuffer = new KeyboardBuffer();
 		MonitorBuffer monitorBuffer = new MonitorBuffer();
-		
-		// 실제로는 control bus로 연결
+
 		cpu.associate(memory); 
 		memory.associate(cpu.mar, cpu.mbr, cpu.cs, cpu.ds, cpu.ss, cpu.hs);
 		

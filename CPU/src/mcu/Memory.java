@@ -18,18 +18,18 @@ public class Memory {
 	Map<Integer, Integer> pageTable;
 	
 	private Register mar, mbr;
-	private Register cs, ds, ss, hs; // cpu register에 할당해주기 위해
+	private Register cs, ds, ss, hs;
 	private KeyboardBuffer keyboardBuffer;
 	private MonitorBuffer monitorBuffer;
 	public int IOBuffer;
 	private int logicalNumber;
 	
 	public Memory() {
-		this.storage = new Page[100]; // page 1 대체로 segment 하나 크기
+		this.storage = new Page[100];
 		this.segmentTable = new HashMap<>();
 		this.pageTable = new HashMap<>();
-		this.logicalNumber = 10; // 0~9의 번호들은 다 쓰이고 있다고 가정
-		for(int i=0; i<5; i++) { // page 0~4까지 쓰이고 있다고 가정
+		this.logicalNumber = 10;
+		for(int i=0; i<5; i++) {
 			this.storage[i].setIsUsed(true);
 		}
 		
@@ -114,11 +114,11 @@ public class Memory {
 		
 		try {
 			if(segmentTableCheck(physicalPageNumber)) {
-				mbr.setValue(this.storage[physicalPageNumber].getValue(mar.getValue())); // mar : 이미 앞에 숫자 두 개 빼져있는 상태여야 함
+				mbr.setValue(this.storage[physicalPageNumber].getValue(mar.getValue()));
 				return;
 			}
 			else {
-				throw new SegmentFaultException("segment의 limit를 초과함");
+				throw new SegmentFaultException("segment fault exception ! !");
 			}
 		}
 		catch (SegmentFaultException e) {
@@ -135,7 +135,7 @@ public class Memory {
 				return;
 			}
 			else {
-				throw new SegmentFaultException("segment의 limit를 초과함");
+				throw new SegmentFaultException("segment fault exception ! !");
 			}
 		}
 		catch (SegmentFaultException e) {
@@ -155,12 +155,12 @@ public class Memory {
 		
 		try {
 			if(segmentTableCheck(physicalPageNumber)) {
-				int address = mar.getValue(); // mar : 이미 앞에 숫자 두 깨 빠져 있는 상황이어야 함
+				int address = mar.getValue();
 				int value = mbr.getValue();
 				this.storage[physicalPageNumber].setValue(address, Integer.toString(value));
 			}
 			else {
-				throw new SegmentFaultException("segment의 limit를 초과함");
+				throw new SegmentFaultException("segment fault exception ! !");
 			}
 		}
 		catch (SegmentFaultException e) {
@@ -174,7 +174,7 @@ public class Memory {
 		for(int i=sp; i>sp-size; i--) {
 			this.storage[physicalPageNumber].remove(i);
 		}
-		return sp-size; // idx랑 통일 ????
+		return sp-size;
 	}
 	
 	public int allocate(int hp, Register saveSr, int address) {
@@ -182,7 +182,7 @@ public class Memory {
 		
 		try {
 			if(hp >= 100) {
-				throw new SegmentFaultException("segment의 limit를 초과함");
+				throw new SegmentFaultException("segment fault exception ! !");
 			}
 		}
 		catch (SegmentFaultException e) {
@@ -199,14 +199,14 @@ public class Memory {
 				this.storage[physicalPageNumber].setValue(address, Integer.toString(this.hs.getValue()+hp));
 			}
 			else {
-				throw new SegmentFaultException("segment의 limit를 초과함");
+				throw new SegmentFaultException("segment fault exception ! !");
 			}
 		}
 		catch (SegmentFaultException e) {
 			e.getStackTrace();
 		}
 		
-		return this.storage[this.hs.getValue()].getIdx(); // idx = hp 통일
+		return this.storage[this.hs.getValue()].getIdx();
 	}
 
 	public void IOInterrupt(int interruptNumber) {
@@ -231,7 +231,7 @@ public class Memory {
 					return entry.getValue();
 				}
 			}
-			throw new SegmentFaultException("해당 page가 존재하지 않음");
+			throw new SegmentFaultException("segment fault exception ! !");
 		}
 		catch (SegmentFaultException e) {
 			e.getStackTrace();
@@ -246,7 +246,7 @@ public class Memory {
 					return entry.getValue();
 				}
 			}
-			throw new SegmentFaultException("해당 page가 존재하지 않음");
+			throw new SegmentFaultException("segment fault exception ! !");
 		}
 		catch (SegmentFaultException e) {
 			e.getStackTrace();
@@ -263,7 +263,7 @@ public class Memory {
 					return false;
 				}
 			}
-			throw new SegmentFaultException("해당 segment가 존재하지 않음");
+			throw new SegmentFaultException("segment fault exception ! !");
 		}
 		catch (SegmentFaultException e) {
 			e.getStackTrace();
