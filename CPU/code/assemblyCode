@@ -1,0 +1,79 @@
+	.data
+	@studentNum 0
+	@sum 1
+	@totalAvg 2
+	@avg 3
+	@i 4
+	@student 5
+	
+	.code
+	interrupt 9
+	loada #0
+	storea @studentNum
+
+Lstart:
+	loadc 0
+	storea @i
+	loada @i
+	suba @studentNum
+	gej Lend
+	allocate @student
+	// loada $return1
+	push 5
+	storea $dynamicLink1
+	loadc LendSum
+	storea $returnAddress1
+	loada @student
+	storea $object
+	jump Lsum
+
+LendSum:
+	loada $return1
+	storea @sum
+	pop 5
+	
+	push 6
+	storea $dynamicLink2
+	loadc LendAvg
+	storea $ReturnAddress2
+	loada @student
+	loada @sum
+	storea $lectureSum
+	jump Lavg
+	
+LendAvg:
+	loada $return2
+	storea @totalAvg
+	pop 6
+	
+	loada @i
+	addc 1
+	jump Lstart
+
+Lend:	
+	loada @totalAvg
+	dividea @studentNum
+	storea @avg
+	storea #0
+	interrupt 8
+	halt
+	
+Lsum:
+	loado $object+0
+	addo $object+4
+	storea $result1
+	storea $return1
+	jump $returnAddress1
+// .end
+	
+Lavg:
+	loadc 2
+	storea $lectureNum
+	loada $lectureSum
+	dividea $lectureNum
+	storea $result2
+	storea $return2
+	jump $returnAddress2
+//	.end	
+
+.end
